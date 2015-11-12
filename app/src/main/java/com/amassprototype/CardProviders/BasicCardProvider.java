@@ -1,9 +1,11 @@
 package com.amassprototype.CardProviders;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +20,9 @@ public class BasicCardProvider extends CardProvider<BasicCardProvider> {
 
     String text = "placeholder text";
     int drawable_id = R.mipmap.ic_launcher;
+    int mBackground_color = R.color.white;
     String text_hex;
+    Context mContext;
 
     public int getLayout() {
         return R.layout.basic_card;
@@ -38,6 +42,14 @@ public class BasicCardProvider extends CardProvider<BasicCardProvider> {
 
     public BasicCardProvider setImage(int id) {
         this.drawable_id = id;
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public BasicCardProvider setBackgroundColor(int color, Context mContext) {
+        this.mContext = mContext;
+        mBackground_color = color;
+        notifyDataSetChanged();
         return this;
     }
 
@@ -45,8 +57,11 @@ public class BasicCardProvider extends CardProvider<BasicCardProvider> {
     public void render(@NonNull View view, @NonNull Card card) {
         super.render(view, card);
 
-        LinearLayout background = (LinearLayout)view.findViewById(R.id.background);
-        background.setBackgroundResource(drawable_id);
+        ImageView image = (ImageView)view.findViewById(R.id.image);
+        image.setBackgroundResource(drawable_id);
+
+        LinearLayout layout = (LinearLayout)view.findViewById(R.id.background);
+        layout.setBackgroundColor(mContext.getResources().getColor(mBackground_color));
 
         TextView textView = (TextView)view.findViewById(R.id.my_text);
         textView.setText(text);

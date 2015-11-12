@@ -10,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.amassprototype.CardProviders.BasicCardProvider;
+import com.amassprototype.CardProviders.BirthdayCardProvider;
 import com.dexafree.materialList.card.Card;
 import com.dexafree.materialList.card.CardProvider;
 import com.dexafree.materialList.view.MaterialListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         mCards = (MaterialListView) findViewById(R.id.material_listview);
         setUpCards();
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 .setText("Your current portfolio")
                 .setTextColor(white)
                 .setImage(R.mipmap.graph)
+                .setBackgroundColor(R.color.red, getApplicationContext())
                 .endConfig()
                 .build());
 
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 .setText("Start saving up!")
                 .setImage(R.mipmap.concert)
                 .setTextColor(white)
+                .setBackgroundColor(R.color.yellow, getApplicationContext())
                 .endConfig()
                 .build());
 
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 .withProvider(new BasicCardProvider())
                 .setText("Set up automatic investing")
                 .setImage(R.mipmap.money_piles)
+                .setBackgroundColor(R.color.green, getApplicationContext())
                 .endConfig()
                 .build());
 
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 .setText("Start saving with a friend")
                 .setImage(R.mipmap.friends)
                 .setTextColor(white)
+                .setBackgroundColor(R.color.lime, getApplicationContext())
                 .endConfig()
                 .build());
 
@@ -104,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
                 .withProvider(new BasicCardProvider())
                 .setText(String.valueOf(days) + " Day Investing Streak!")
                 .setImage(R.mipmap.board_meeting)
+                .setBackgroundColor(R.color.orange, getApplicationContext())
+                .endConfig()
+                .build());
+
+        cards.add(new Card.Builder(this)
+                .withProvider(new BirthdayCardProvider())
+                .setImage(R.mipmap.birthday)
+                .setNames(getBirthdayNames(), getApplicationContext())
                 .endConfig()
                 .build());
 
@@ -111,5 +126,11 @@ public class MainActivity extends AppCompatActivity {
         for (Card c : cards) { c.setDismissible(true); }
 
         mCards.getAdapter().addAll(cards);
+    }
+
+    private ArrayList<String> getBirthdayNames() {
+        String[] names_array = new String[]{ "James", "Sam", "Alex", "Dan", "Tomek", "Sean"};
+        ArrayList<String> names = new ArrayList(Arrays.asList(names_array));
+        return names;
     }
 }
